@@ -1,7 +1,14 @@
 const canvas = document.getElementById("portalCanvas");
 const ctx = canvas.getContext("2d");
+const audio = document.getElementById("blackHoleSound");
 let w, h, particles = [];
 const dnaChars = "GOLD-X4-SOVEREIGN-777".split("");
+
+// Ativação do Som Soberano no primeiro contato
+document.addEventListener('click', () => {
+    audio.play();
+    audio.volume = 0.6; 
+}, { once: true });
 
 function init() {
     w = canvas.width = window.innerWidth;
@@ -11,7 +18,7 @@ function init() {
         particles.push({
             r: Math.random() * Math.max(w, h),
             angle: Math.random() * Math.PI * 2,
-            speed: 0.005, 
+            speed: 0.00575, // Acelerado +15% (0.005 * 1.15)
             size: Math.random() * 14 + 10,
             c: dnaChars[Math.floor(Math.random() * dnaChars.length)]
         });
@@ -19,13 +26,12 @@ function init() {
 }
 
 function draw() {
-    // Acúmulo de rastro cria a "névoa de ouro"
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, w, h);
 
     particles.forEach(p => {
         p.angle += p.speed;
-        p.r -= 2.8; 
+        p.r -= 3.22; // Sucção acelerada +15% (2.8 * 1.15)
 
         if(p.r < 40) p.r = Math.max(w, h) * 0.8;
 
@@ -44,7 +50,7 @@ function draw() {
         }
     });
 
-    // O Vácuo Central (Buraco Negro Soberano)
+    // O Vácuo Central Soberano
     ctx.beginPath();
     ctx.arc(w/2, h/2, 60, 0, Math.PI * 2);
     ctx.fillStyle = "#000";
